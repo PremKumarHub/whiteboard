@@ -19,10 +19,9 @@ export const Navbar = ({ onLeaveRoom, roomInfo }) => {
   const [showUsersModal, setShowUsersModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const handleCopyLink = () => {
+  const handleCopyCode = () => {
     if (!currentRoom) return;
-    const roomUrl = `${window.location.origin}?room=${currentRoom}`;
-    navigator.clipboard.writeText(roomUrl);
+    navigator.clipboard.writeText(currentRoom);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -63,10 +62,10 @@ export const Navbar = ({ onLeaveRoom, roomInfo }) => {
               <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Room:</span>
               <strong style={{ letterSpacing: '0.05em', color: '#a5b4fc' }}>{currentRoom}</strong>
               <button
-                onClick={handleCopyLink}
+                onClick={handleCopyCode}
                 className="tool-btn"
                 style={{ width: '28px', height: '28px' }}
-                title="Copy Room Link"
+                title="Copy Room Code"
               >
                 {copied ? <Check size={14} color="#10b981" /> : <Copy size={14} />}
               </button>

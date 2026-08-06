@@ -1,5 +1,8 @@
 # Zansphere Real-Time Collaborative Whiteboard 🎨⚡
 
+> 🚀 **Live Application Demo**: [https://whiteboard-five-pi.vercel.app](https://whiteboard-five-pi.vercel.app)  
+> 📦 **GitHub Repository**: [https://github.com/PremKumarHub/whiteboard](https://github.com/PremKumarHub/whiteboard)
+
 A full-stack (MERN + Socket.IO) collaborative online whiteboard application designed for technical assessment at Zansphere Private Limited. Built with clean modular architecture, state synchronization, multi-user cursor tracking, room isolation, database state persistence, undo/redo capabilities, authentication, and high-DPI HTML5 canvas rendering.
 
 ---

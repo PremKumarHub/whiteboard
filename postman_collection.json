@@ -1,0 +1,138 @@
+{
+  "info": {
+    "_postman_id": "zansphere-whiteboard-collection",
+    "name": "Zansphere Whiteboard REST API Collection",
+    "description": "Postman / Bruno collection for testing Zansphere Whiteboard REST APIs including Auth and Room Management.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"PremKumar\",\n  \"email\": \"prem@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"prem@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rooms",
+      "item": [
+        {
+          "name": "Create Room",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"System Architecture Session\",\n  \"isPrivate\": false,\n  \"passcode\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", "create"]
+            }
+          }
+        },
+        {
+          "name": "Get Room Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/:roomId",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", ":roomId"],
+              "variable": [
+                { "key": "roomId", "value": "ROOM-XYZ123" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Public Rooms",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms"]
+            }
+          }
+        },
+        {
+          "name": "Verify Room Passcode",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"ROOM-XYZ123\",\n  \"passcode\": \"secret123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/rooms/verify-passcode",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rooms", "verify-passcode"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "token", "value": "" }
+  ]
+}

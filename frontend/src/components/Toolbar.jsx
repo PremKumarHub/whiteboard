@@ -11,19 +11,18 @@ import {
   Trash2,
   Download,
   Grid,
-  Palette,
   Sliders,
 } from 'lucide-react';
 
-const COLORS = [
-  '#3b82f6', // Blue
-  '#ef4444', // Red
-  '#10b981', // Emerald
-  '#f59e0b', // Amber
-  '#ec4899', // Pink
-  '#8b5cf6', // Purple
-  '#06b6d4', // Cyan
-  '#ffffff', // White
+const WHITEBOARD_MARKERS = [
+  '#0f172a', // Classic Black
+  '#2563eb', // Royal Blue
+  '#dc2626', // Crimson Red
+  '#16a34a', // Emerald Green
+  '#9333ea', // Purple
+  '#ea580c', // Dark Orange
+  '#0d9488', // Teal
+  '#475569', // Slate Gray
 ];
 
 const STROKE_SIZES = [2, 4, 8, 14];
@@ -47,11 +46,11 @@ export const Toolbar = ({
 
   return (
     <div className="floating-toolbar glass-panel animate-fade-in">
-      {/* Pen */}
+      {/* Pen Marker */}
       <button
         onClick={() => setActiveTool('pen')}
         className={`tool-btn ${activeTool === 'pen' ? 'active' : ''}`}
-        title="Pen Tool"
+        title="Pen Marker Tool"
       >
         <Pencil size={18} />
       </button>
@@ -60,7 +59,7 @@ export const Toolbar = ({
       <button
         onClick={() => setActiveTool('eraser')}
         className={`tool-btn ${activeTool === 'eraser' ? 'active' : ''}`}
-        title="Eraser Tool"
+        title="Whiteboard Eraser"
       >
         <Eraser size={18} />
       </button>
@@ -96,14 +95,14 @@ export const Toolbar = ({
       <button
         onClick={() => setActiveTool('text')}
         className={`tool-btn ${activeTool === 'text' ? 'active' : ''}`}
-        title="Text Tool"
+        title="Text Annotation"
       >
         <Type size={18} />
       </button>
 
       <div className="toolbar-divider" />
 
-      {/* Color Selector */}
+      {/* Marker Color Swatch */}
       <div style={{ position: 'relative' }}>
         <button
           onClick={() => {
@@ -111,7 +110,7 @@ export const Toolbar = ({
             setShowSizes(false);
           }}
           className="tool-btn"
-          title="Color Swatch"
+          title="Marker Color"
         >
           <div
             style={{
@@ -125,8 +124,8 @@ export const Toolbar = ({
         </button>
 
         {showColors && (
-          <div className="color-picker-dropdown glass-panel">
-            {COLORS.map((c) => (
+          <div className="color-picker-dropdown">
+            {WHITEBOARD_MARKERS.map((c) => (
               <button
                 key={c}
                 onClick={() => {
@@ -141,7 +140,7 @@ export const Toolbar = ({
         )}
       </div>
 
-      {/* Stroke Width Selector */}
+      {/* Marker Thickness */}
       <div style={{ position: 'relative' }}>
         <button
           onClick={() => {
@@ -149,13 +148,13 @@ export const Toolbar = ({
             setShowColors(false);
           }}
           className="tool-btn"
-          title="Stroke Width"
+          title="Marker Thickness"
         >
           <Sliders size={18} />
         </button>
 
         {showSizes && (
-          <div className="color-picker-dropdown glass-panel" style={{ gap: '10px' }}>
+          <div className="color-picker-dropdown" style={{ gap: '10px' }}>
             {STROKE_SIZES.map((size) => (
               <button
                 key={size}
@@ -197,13 +196,13 @@ export const Toolbar = ({
       </button>
 
       {/* Clear Canvas */}
-      <button onClick={onClear} className="tool-btn" title="Clear Canvas">
+      <button onClick={onClear} className="tool-btn" title="Clear Board">
         <Trash2 size={18} color="#f87171" />
       </button>
 
       <div className="toolbar-divider" />
 
-      {/* Grid Toggle */}
+      {/* Grid Overlay Toggle */}
       <button
         onClick={() => setIsGrid(!isGrid)}
         className={`tool-btn ${isGrid ? 'active' : ''}`}
@@ -213,7 +212,7 @@ export const Toolbar = ({
       </button>
 
       {/* Export PNG */}
-      <button onClick={onExport} className="tool-btn" title="Export as Image">
+      <button onClick={onExport} className="tool-btn" title="Export Board Image">
         <Download size={18} />
       </button>
     </div>

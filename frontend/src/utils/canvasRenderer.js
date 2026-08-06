@@ -1,7 +1,9 @@
 /**
  * Canvas Renderer Engine
- * Handles high-DPI canvas rendering for smooth real-time drawing actions
+ * Handles high-DPI canvas rendering for smooth real-time drawing on a clean Whiteboard surface
  */
+
+export const WHITEBOARD_BG = '#ffffff';
 
 export const renderAction = (ctx, action) => {
   if (!ctx || !action) return;
@@ -10,16 +12,19 @@ export const renderAction = (ctx, action) => {
 
   ctx.save();
   ctx.beginPath();
-  ctx.strokeStyle = tool === 'eraser' ? '#0b0f19' : color || '#3b82f6';
-  ctx.fillStyle = tool === 'eraser' ? '#0b0f19' : color || '#3b82f6';
-  ctx.lineWidth = tool === 'eraser' ? (strokeWidth || 10) * 2 : strokeWidth || 3;
+  
+  // Real whiteboard eraser uses whiteboard surface background color
+  const strokeColor = tool === 'eraser' ? WHITEBOARD_BG : color || '#0f172a';
+  ctx.strokeStyle = strokeColor;
+  ctx.fillStyle = strokeColor;
+  ctx.lineWidth = tool === 'eraser' ? (strokeWidth || 10) * 3 : strokeWidth || 3;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
   if (tool === 'pen' || tool === 'eraser') {
     if (points && points.length > 0) {
       if (points.length === 1) {
-        ctx.arc(points[0].x, points[0].y, (strokeWidth || 3) / 2, 0, Math.PI * 2);
+        ctx.arc(points[0].x, points[0].y, (ctx.lineWidth) / 2, 0, Math.PI * 2);
         ctx.fill();
       } else {
         ctx.moveTo(points[0].x, points[0].y);
@@ -51,7 +56,7 @@ export const renderAction = (ctx, action) => {
     }
   } else if (tool === 'text') {
     if (x !== undefined && y !== undefined && text) {
-      ctx.font = `${(strokeWidth || 3) * 5 + 12}px Outfit, sans-serif`;
+      ctx.font = `600 ${(strokeWidth || 3) * 5 + 14}px Outfit, sans-serif`;
       ctx.fillText(text, x, y);
     }
   }
@@ -64,8 +69,9 @@ export const redrawCanvas = (canvas, actions, activePreview = null) => {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  // Clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Fill canvas with clean whiteboard background
+  ctx.fillStyle = WHITEBOARD_BG;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Render all saved room actions
   actions.forEach((action) => {

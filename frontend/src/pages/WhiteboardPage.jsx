@@ -10,7 +10,7 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
   const { joinRoom, leaveRoom, undo, redo, clearCanvas, currentRoom } = useSocket();
 
   const [activeTool, setActiveTool] = useState('pen');
-  const [activeColor, setActiveColor] = useState('#3b82f6');
+  const [activeColor, setActiveColor] = useState('#0f172a'); // Classic black whiteboard marker
   const [strokeWidth, setStrokeWidth] = useState(4);
   const [isGrid, setIsGrid] = useState(true);
   const [joinStatus, setJoinStatus] = useState({ loading: true, error: null });
@@ -61,18 +61,18 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [undo, redo]);
 
-  // Export Canvas as PNG image
+  // Export Whiteboard Canvas as high resolution PNG image
   const handleExportCanvas = useCallback(() => {
     const canvas = canvasElementRef.current;
     if (!canvas) return;
 
-    // Create temporary canvas with dark background for export
     const exportCanvas = document.createElement('canvas');
     exportCanvas.width = canvas.width;
     exportCanvas.height = canvas.height;
     const ctx = exportCanvas.getContext('2d');
 
-    ctx.fillStyle = '#0b0f19';
+    // Fill crisp white background
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
     ctx.drawImage(canvas, 0, 0);
 
@@ -93,7 +93,7 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           gap: '16px',
-          background: 'radial-gradient(circle at 50% 50%, #151d33 0%, #0b0f19 100%)',
+          background: '#0f172a',
         }}
       >
         <div
@@ -108,7 +108,7 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
         />
         <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
         <div style={{ color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: 500 }}>
-          Connecting to Collaborative Room {roomId}...
+          Loading Whiteboard Workspace {roomId}...
         </div>
       </div>
     );
@@ -123,10 +123,10 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'radial-gradient(circle at 50% 50%, #151d33 0%, #0b0f19 100%)',
+          background: '#0f172a',
         }}
       >
-        <div className="modal-content glass-panel" style={{ textAlign: 'center' }}>
+        <div className="modal-content" style={{ textAlign: 'center' }}>
           <h3 style={{ fontSize: '1.4rem', color: '#f87171', marginBottom: '12px' }}>
             Unable to Join Room
           </h3>
@@ -143,10 +143,10 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
 
   return (
     <div className="app-container">
-      {/* Top Navbar */}
+      {/* Top Fixed Navbar */}
       <Navbar onLeaveRoom={onLeave} />
 
-      {/* HTML5 Whiteboard Canvas Workspace */}
+      {/* HTML5 Clean Whiteboard Surface */}
       <WhiteboardCanvas
         activeTool={activeTool}
         activeColor={activeColor}
@@ -155,7 +155,7 @@ export const WhiteboardPage = ({ roomId, passcode, onLeave }) => {
         onCanvasReady={(el) => (canvasElementRef.current = el)}
       />
 
-      {/* Bottom Floating Toolbar */}
+      {/* Floating Toolbar - Comfortably positioned below Navbar */}
       <Toolbar
         activeTool={activeTool}
         setActiveTool={setActiveTool}
